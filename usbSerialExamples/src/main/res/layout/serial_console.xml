@@ -26,10 +26,16 @@
 
 
     <CheckBox
+        android:id="@+id/checkBoxRTS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/textBtnRTS"
-        android:id="@+id/checkBoxRTS" />
+        android:text="@string/textBtnRTS" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="139dp"
+        android:layout_height="wrap_content"
+        android:text="Button" />
 
     <View
         android:id="@+id/separator2"

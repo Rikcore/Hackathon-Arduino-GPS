@@ -59,9 +59,9 @@ public class DeviceListActivity extends Activity {
     private final String TAG = DeviceListActivity.class.getSimpleName();
 
     private UsbManager mUsbManager;
-    private ListView mListView;
     private TextView mProgressBarTitle;
     private ProgressBar mProgressBar;
+    private ListView mListView;
 
     private static final int MESSAGE_REFRESH = 101;
     private static final long REFRESH_TIMEOUT_MILLIS = 5000;
@@ -200,7 +200,7 @@ public class DeviceListActivity extends Activity {
     }
 
     private void showConsoleActivity(UsbSerialPort port) {
-        com.hoho.android.usbserial.examples.SerialConsoleActivity.show(this, port);
+        src.com.hoho.android.usbserial.examples.SerialConsoleActivity.show(this, port);
     }
 
 }

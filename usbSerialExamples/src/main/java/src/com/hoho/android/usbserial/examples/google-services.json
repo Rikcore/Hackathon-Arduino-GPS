@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "73250692964",
+    "firebase_url": "https://usb-serial-for-android.firebaseio.com",
+    "project_id": "usb-serial-for-android",
+    "storage_bucket": "usb-serial-for-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:73250692964:android:ad095826c48d306b",
+        "android_client_info": {
+          "package_name": "com.hoho.android.usbserial.examples"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "73250692964-4idedc0cikultgbg15g94fa3na7p4o09.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hoho.android.usbserial.examples",
+            "certificate_hash": "56ea975ed4d0186dce2d04e3fb9908d4f06b23c2"
+          }
+        },
+        {
+          "client_id": "73250692964-i3761ajhltb3v85k38gs0gkq53r6scs8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCafEjCif61MEvFazTAvKW9TOZ1yw2HzQg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "73250692964-i3761ajhltb3v85k38gs0gkq53r6scs8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

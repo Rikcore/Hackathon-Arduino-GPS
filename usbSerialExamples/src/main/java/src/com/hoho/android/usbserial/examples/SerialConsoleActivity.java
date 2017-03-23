@@ -26,14 +26,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.hoho.android.usbserial.driver.UsbSerialPort;
+import com.hoho.android.usbserial.examples.R;
 import com.hoho.android.usbserial.util.HexDump;
 import com.hoho.android.usbserial.util.SerialInputOutputManager;
 
@@ -41,26 +49,30 @@ import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import src.com.hoho.android.usbserial.examples.GpsCoord;
+
 /**
  * Monitors a single {@link UsbSerialPort} instance, showing all data
  * received.
  *
  * @author mike wakerly (opensource@hoho.com)
  */
-public class SerialConsoleActivity extends Activity {
+public class SerialConsoleActivity extends Activity implements LocationListener{
 
     private final String TAG = SerialConsoleActivity.class.getSimpleName();
 
-    /**
-     * Driver instance, passed in statically via
-     * {@link #show(Context, UsbSerialPort)}.
-     *
-     * <p/>
-     * This is a devious hack; it'd be cleaner to re-create the driver using
-     * arguments passed in with the {@link #startActivity(Intent)} intent. We
-     * can get away with it because both activities will run in the same
-     * process, and this is a simple demo.
-     */
+    protected LocationManager mLocationManager;
+    protected LocationListener mLocationListener;
+    protected Context mContext;
+
+    String lat;
+    String provider;
+    protected String longitude;
+    protected String latitude;
+    protected boolean gps_enabled;
+    protected boolean network_enabled;
+    private Button button;
+
     private static UsbSerialPort sPort = null;
 
     private TextView mTitleTextView;
@@ -68,6 +80,9 @@ public class SerialConsoleActivity extends Activity {
     private ScrollView mScrollView;
     private CheckBox chkDTR;
     private CheckBox chkRTS;
+
+    private FirebaseDatabase database;
+    private DatabaseReference mRef;
 
     private final ExecutorService mExecutor = Executors.newSingleThreadExecutor();
 
@@ -101,6 +116,21 @@ public class SerialConsoleActivity extends Activity {
         mScrollView = (ScrollView) findViewById(R.id.demoScroller);
         chkDTR = (CheckBox) findViewById(R.id.checkBoxDTR);
         chkRTS = (CheckBox) findViewById(R.id.checkBoxRTS);
+        button = (Button) findViewById(R.id.button);
+
+
+
+        mLocationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0 ,0 ,this);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(SerialConsoleActivity.this, MapsActivity.class);
+                startActivity(intent);
+            }
+        });
 
         chkDTR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -121,7 +151,6 @@ public class SerialConsoleActivity extends Activity {
         });
 
     }
-
 
     @Override
     protected void onPause() {
@@ -202,6 +231,20 @@ public class SerialConsoleActivity extends Activity {
         }
     }
 
+
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+        database = FirebaseDatabase.getInstance();
+        mRef = database.getReference("CHECKPOINT");
+        GpsCoord coord = new GpsCoord(location.getLatitude(), location.getLongitude());
+        String data = "+CHECK_LOCATION=" + coord.converterLat() + "," + coord.converterLon();
+        mSerialIoManager.writeAsync(data.getBytes());
+        mRef.push().setValue(coord);
+
+    }
+
     private void onDeviceStateChange() {
         stopIoManager();
         startIoManager();
@@ -227,4 +270,18 @@ public class SerialConsoleActivity extends Activity {
         context.startActivity(intent);
     }
 
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+        Log.d("Latitude", "Status");
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+        Log.d("Latitude", "Enabled");
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+        Log.d("Latitude", "Disabled");
+    }
 }
