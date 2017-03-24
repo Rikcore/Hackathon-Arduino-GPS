@@ -1,4 +1,4 @@
-package com.hoho.android.usbserial.examples;
+package src.com.hoho.android.usbserial.examples;
 
 /**
  * Created by keru on 23/03/17.

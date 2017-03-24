@@ -19,10 +19,11 @@
  * Project home page: https://github.com/mik3y/usb-serial-for-android
  */
 
-package com.hoho.android.usbserial.examples;
+package src.com.hoho.android.usbserial.examples;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.os.AsyncTask;
@@ -36,6 +37,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -44,6 +46,7 @@ import android.widget.TwoLineListItem;
 import com.hoho.android.usbserial.driver.UsbSerialDriver;
 import com.hoho.android.usbserial.driver.UsbSerialPort;
 import com.hoho.android.usbserial.driver.UsbSerialProber;
+import com.hoho.android.usbserial.examples.R;
 import com.hoho.android.usbserial.util.HexDump;
 
 import java.util.ArrayList;
@@ -94,6 +97,17 @@ public class DeviceListActivity extends Activity {
         mListView = (ListView) findViewById(R.id.deviceList);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         mProgressBarTitle = (TextView) findViewById(R.id.progressBarTitle);
+
+        Button button = (Button) findViewById(R.id.buttonMap);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(DeviceListActivity.this, MapsActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         mAdapter = new ArrayAdapter<UsbSerialPort>(this,
                 android.R.layout.simple_expandable_list_item_2, mEntries) {
@@ -200,7 +214,7 @@ public class DeviceListActivity extends Activity {
     }
 
     private void showConsoleActivity(UsbSerialPort port) {
-        src.com.hoho.android.usbserial.examples.SerialConsoleActivity.show(this, port);
+        SerialConsoleActivity.show(this, port);
     }
 
 }

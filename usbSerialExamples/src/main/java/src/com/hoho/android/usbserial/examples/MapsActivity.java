@@ -1,4 +1,4 @@
-package com.hoho.android.usbserial.examples;
+package src.com.hoho.android.usbserial.examples;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -53,28 +54,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap = googleMap;
 
-        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        mRef.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot child : dataSnapshot.child("CHECKPOINT").getChildren()) {
-                    String latLocation = child.child("mLat").getValue().toString();
-                    String lonLocation = child.child("mLon").getValue().toString();
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String latLocation = dataSnapshot.child("mLat").getValue().toString();
+                String lonLocation = dataSnapshot.child("mLon").getValue().toString();
 
-                    double locationLat = Double.parseDouble(latLocation);
-                    double locationLon = Double.parseDouble(lonLocation);
-                    LatLng cod = new LatLng(locationLat, locationLon);
-                    mMap.addMarker(new MarkerOptions().position(cod));
-                }
+                double locationLat = Double.parseDouble(latLocation);
+                double locationLon = Double.parseDouble(lonLocation);
+                LatLng cod = new LatLng(locationLat, locationLon);
+                mMap.addMarker(new MarkerOptions().position(cod));
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
-
             }
-
         });
-
     }
 
 }

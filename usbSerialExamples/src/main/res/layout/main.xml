@@ -45,6 +45,14 @@
         android:id="@+id/deviceList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/separator" />
+        android:layout_below="@+id/separator"
+        android:layout_above="@+id/buttonMap"/>
+
+    <Button
+        android:id="@+id/buttonMap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Map" />
 
 </RelativeLayout>

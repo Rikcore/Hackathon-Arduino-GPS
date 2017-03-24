@@ -19,7 +19,7 @@
  * Project home page: https://github.com/mik3y/usb-serial-for-android
  */
 
-package com.hoho.android.usbserial.examples;
+package src.com.hoho.android.usbserial.examples;
 
 import android.app.Activity;
 import android.content.Context;
@@ -116,21 +116,11 @@ public class SerialConsoleActivity extends Activity implements LocationListener{
         mScrollView = (ScrollView) findViewById(R.id.demoScroller);
         chkDTR = (CheckBox) findViewById(R.id.checkBoxDTR);
         chkRTS = (CheckBox) findViewById(R.id.checkBoxRTS);
-        button = (Button) findViewById(R.id.button);
-
-
 
         mLocationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0 ,0 ,this);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                Intent intent = new Intent(SerialConsoleActivity.this, MapsActivity.class);
-                startActivity(intent);
-            }
-        });
 
         chkDTR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -263,7 +253,7 @@ public class SerialConsoleActivity extends Activity implements LocationListener{
      * @param context
      * @param driver
      */
-    static void show(Context context, UsbSerialPort port) {
+    public static void show(Context context, UsbSerialPort port) {
         sPort = port;
         final Intent intent = new Intent(context, SerialConsoleActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
